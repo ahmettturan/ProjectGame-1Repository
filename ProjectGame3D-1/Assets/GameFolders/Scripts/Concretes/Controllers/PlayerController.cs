@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectGame3D.Inputs;
-
+using ProjectGame3D.Movement;
 
 namespace ProjectGame3D.Controllers 
 {
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float _force; 
+    private PlayerMover _playerMover;
     Rigidbody _rigidbody;
     DefaultInput _input;
     bool _isForceUp;
@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     {
             _rigidbody = GetComponent<Rigidbody>();
             _input = new DefaultInput();
+            _playerMover = new PlayerMover(rigidbody:GetComponent<Rigidbody>());
     }
     private void Update() 
     {
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         if(_isForceUp)
         {
-            _rigidbody.AddForce(Vector3.up * Time.deltaTime * _force);
+            _playerMover.FixedTick();
         }
     }
 }
